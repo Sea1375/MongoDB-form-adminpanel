@@ -58,5 +58,5 @@ export const ColumnModel = [
     dataIndex: 'ip',
     sorter: (a, b) => a.ip.length - b.ip.length,
     sortDirections: ['descend', 'ascend'],
-  },
+  }
 ];

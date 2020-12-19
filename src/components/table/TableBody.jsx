@@ -1,37 +1,38 @@
 import React from 'react';
 import { Table } from 'antd';
+import 'antd/dist/antd.css';
 import { ColumnModel } from '../../core/model/ColumnModel';
-
+// import { ExpandedRowRender } from '../../core/mock/ExpandedRowRender';
 const columnModel = ColumnModel;
 
 class TableBody extends React.Component {
   state = {
-    selectedRowKey: 0, // Check here to configure the default column
     urls: [],
+    dataSource: [],
   };
 
   componentDidMount(){
     fetch('http://localhost:8080/url/get-all-document')
       .then(res => res.json())
       .then((data) => {
-        this.setState({urls: data})
+        this.setState({urls: data});
+        for (let i = 0; i < data.length; i++) {
+          data[i].id = i + 1;
+          data[i].key = i + 1;
+        }
+        this.setState({dataSource: data});
       })
       .catch(console.log)
   }
 
-  onSelectChange = selectedRowKey => {
-    console.log('selectedRowKeys changed: ', selectedRowKey);
-    this.setState({ selectedRowKey });
-  };
-
   render(){
-    const { selectedRowKey } = this.state;
-    const rowSelection = {
-      selectedRowKey,
-      onChange: this.onSelectChange,
-    };
-    return(
-      <Table rowSelection={rowSelection} columns={columnModel} dataSource={this.state.urls} />
+    return (
+      <Table columns={columnModel} dataSource={this.state.dataSource}
+             expandable={{
+               expandedRowRender: record => (
+                 <p style={{margin: 0}}>{record.email}</p>
+               )
+             }}/>
     );
   }
 }
