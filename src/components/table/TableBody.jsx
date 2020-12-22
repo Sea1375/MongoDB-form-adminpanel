@@ -2,9 +2,7 @@ import React from 'react';
 import { Popconfirm, Table } from 'antd';
 import 'antd/dist/antd.css';
 // import { ColumnModel } from '../../core/model/ColumnModel';
-
 // const columnModel = ColumnModel;
-
 class TableBody extends React.Component {
   columns = [
     {
@@ -79,7 +77,6 @@ class TableBody extends React.Component {
     }
   ];
   state = {
-    urls: [],
     dataSource: [],
   };
 
@@ -87,7 +84,6 @@ class TableBody extends React.Component {
     fetch('http://localhost:8080/url/get-all-document')
       .then(res => res.json())
       .then((data) => {
-        this.setState({urls: data});
         for (let i = 0; i < data.length; i++) {
           data[i].id = i + 1;
           data[i].key = i + 1;
@@ -101,6 +97,18 @@ class TableBody extends React.Component {
     const dataSource = [...this.state.dataSource];
     this.setState({
       dataSource: dataSource.filter((item) => item.key !== key),
+    });
+    const deleteID = dataSource.filter((item) => item.key === key)[0]._id;
+    console.log(deleteID);
+    fetch('http://localhost:8080/url/delete', {
+      method: 'POST',
+      body: JSON.stringify({ deleteID: deleteID }),
+      headers:{ 'Content-Type': 'application/json' }
+    })
+      .then(function (response){
+        return response.json()
+      }).then(function (body){
+      console.log(body);
     });
   };
 
