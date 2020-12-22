@@ -1,3 +1,5 @@
+import { Popconfirm } from 'antd';
+
 export const ColumnModel = [
   {
     title: 'ID',
@@ -58,5 +60,15 @@ export const ColumnModel = [
     dataIndex: 'ip',
     sorter: (a, b) => a.ip.length - b.ip.length,
     sortDirections: ['descend', 'ascend'],
+  },
+  {
+    title: 'operation',
+    dataIndex: 'operation',
+    render: (text, record) =>
+      this.state.dataSource.length >= 1 ? (
+        <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
+          <a>Delete</a>
+        </Popconfirm>
+      ) : null,
   }
 ];
