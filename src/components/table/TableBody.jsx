@@ -30,7 +30,7 @@ class TableBody extends React.Component {
       <Table columns={columnModel} dataSource={this.state.dataSource}
              expandable={{
                expandedRowRender: record => (
-                 <p style={{margin: 0}}>{record.email}</p>
+                 <p style={{margin: 10}}>More information will be here.</p>
                )
              }}/>
     );
